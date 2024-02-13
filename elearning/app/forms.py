@@ -2,11 +2,16 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from .models import Course
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
+    group = forms.ChoiceField(
+        choices=[("student", "Student"), ("teacher", "Teacher")], required=True
+    )
 
     class Meta:
         model = User
@@ -18,3 +23,9 @@ class RegisterForm(UserCreationForm):
             "password1",
             "password2",
         ]
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ["title", "description"]

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+    Dashboard
+{% endblock title %}
+{% block content %}
+    <div class="flex flex-col gap-4 items-start">
+        <h1>Teacher Dashboard</h1>
+        <h2>Your courses</h2>
+        <a href={% url "create_course" %} class="btn">Create course</a>
+        {% for course in courses %}
+            <div class="p-4 border border-border rounded-xl w-full">
+                <h3>{{ course.title }}</h3>
+                <p class="text-muted">{{ course.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
