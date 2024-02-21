@@ -8,4 +8,11 @@ class Course(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    students = models.ManyToManyField(User, related_name="students")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Notification(models.Model):
+    message = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

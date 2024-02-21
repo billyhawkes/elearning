@@ -42,12 +42,15 @@
     </head>
     <body>
         <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">eLearning</h1>
-            {% if user %}
+            <a href={% url "home" %} class="text-2xl font-bold">eLearning</a>
+            {% if user.username %}
                 <p>Logged in as {{ user.username }}</p>
-                <a href={% url "logout" %}>Logout</a>
+                <a href={% url "logout" %} class="btn">Logout</a>
             {% else %}
-                <a href={% url "sign_up" %}>Register</a>
+                <nav class="gap-4 flex items-center">
+                    <a href={% url "sign_up" %}>Register</a>
+                    <a href={% url "login" %} class="btn">Login</a>
+                </nav>
             {% endif %}
         </header>
         <main class="p-8">

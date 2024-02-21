@@ -4,19 +4,21 @@
 {% endblock title %}
 {% block content %}
     <div class="flex flex-col gap-4">
-        <h1>Teacher Dashboard</h1>
+        <h1>Student Dashboard</h1>
         <h2>Enrolled courses</h2>
-        {% for course in courses %}
-            <div class="p-4 border border-border rounded-xl">
+        {% for course in enrolled_courses %}
+            <div class="p-4 border border-border rounded-xl flex flex-col gap-2 items-start">
                 <h2>{{ course.title }}</h2>
                 <p>{{ course.description }}</p>
+                <a href={% url "course_unenroll" course.id %} class="btn">Unenroll</a>
             </div>
         {% endfor %}
         <h2>Recommended courses</h2>
         {% for course in courses %}
-            <div class="p-4 border border-border rounded-xl">
+            <div class="p-4 border border-border rounded-xl flex flex-col gap-2 items-start">
                 <h2>{{ course.title }}</h2>
                 <p>{{ course.description }}</p>
+                <a href={% url "course_enroll" course.id %}  class="btn">Enroll</a>
             </div>
         {% endfor %}
     </div>

@@ -5,6 +5,14 @@
 {% block content %}
     <div class="flex flex-col gap-4 items-start">
         <h1>Teacher Dashboard</h1>
+        <a href={% url "search" %} class="btn">Search</a>
+        <h2>Recent Activity</h2>
+        {% for notification in notifications %}
+            <div class="p-4 border border-border rounded-xl w-full flex flex-col gap-2">
+                <p>{{ notification.message }}</p>
+                <p class="text-muted text-sm">{{ notification.created_at }}</p>
+            </div>
+        {% endfor %}
         <h2>Your courses</h2>
         <a href={% url "create_course" %} class="btn">Create course</a>
         {% for course in courses %}

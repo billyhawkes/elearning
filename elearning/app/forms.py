@@ -29,3 +29,7 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ["title", "description"]
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField()
