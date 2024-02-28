@@ -5,6 +5,11 @@
 {% block content %}
     <div class="flex flex-col gap-4">
         <h1>Student Dashboard</h1>
+        <div class="p-4 border border-[#ccc] flex flex-col gap-2 rounded">
+            <h2>Profile</h2>
+            <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+            <p>Email: {{ user.email }}</p>
+        </div>
         <h2>Enrolled courses</h2>
         {% for course in enrolled_courses %}
             <div class="p-4 border border-border rounded-xl flex flex-col gap-2 items-start">

@@ -5,6 +5,11 @@
 {% block content %}
     <div class="flex flex-col gap-4 items-start">
         <h1>Teacher Dashboard</h1>
+        <div class="p-4 border border-[#ccc] flex flex-col gap-2 rounded">
+            <h2>Profile</h2>
+            <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+            <p>Email: {{ user.email }}</p>
+        </div>
         <a href={% url "search" %} class="btn">Search</a>
         <h2>Recent Activity</h2>
         {% for notification in notifications %}

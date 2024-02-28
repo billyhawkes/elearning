@@ -50,7 +50,10 @@ def dashboard(request):
         return render(
             request,
             "dashboard/teacher.html",
-            {"courses": courses, "notifications": notifications},
+            {
+                "courses": courses,
+                "notifications": notifications,
+            },
         )
     else:
         courses = Course.objects.exclude(students=request.user)
