@@ -8,6 +8,13 @@
         {% if owns_course %}
             <a href="{% url "edit_course" course.id %}" class="btn">Edit Course</a>
         {% endif %}
+        {% if not owns_course %}
+            {% if enrolled %}
+                <a href="{% url "course_unenroll" course.id %}" class="btn">Unenroll</a>
+            {% else %}
+                <a href="{% url "course_enroll" course.id %}" class="btn">Enroll</a>
+            {% endif %}
+        {% endif %}
         <p>{{ course.description }}</p>
     </div>
 {% endblock content %}

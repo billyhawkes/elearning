@@ -10,13 +10,19 @@
             <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
             <p>Email: {{ user.email }}</p>
         </div>
+        <h2>Recent Activity</h2>
+        {% for notification in notifications %}
+            <div class="p-4 border border-border rounded-xl w-full flex flex-col gap-2">
+                <p>{{ notification.message }}</p>
+                <p class="text-muted text-sm">{{ notification.created_at }}</p>
+            </div>
+        {% endfor %}
         <h2>Enrolled courses</h2>
         {% for course in enrolled_courses %}
             <a href="{% url "course_detail" course.id %}"
                class="p-4 border border-border rounded-xl w-full">
                 <h2>{{ course.title }}</h2>
                 <p class="truncate">{{ course.description }}</p>
-                <a href={% url "course_unenroll" course.id %} class="btn">Unenroll</a>
             </a>
         {% endfor %}
         <h2>Recommended courses</h2>
@@ -25,7 +31,6 @@
                class="p-4 border border-border rounded-xl w-full">
                 <h2>{{ course.title }}</h2>
                 <p class="truncate">{{ course.description }}</p>
-                <a href={% url "course_enroll" course.id %}  class="btn">Enroll</a>
             </a>
         {% endfor %}
     </div>

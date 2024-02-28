@@ -121,20 +121,35 @@ def unenroll(request, course_id):
 def course_detail(request, course_id):
     course = Course.objects.get(pk=course_id)
     owns_course = course.teacher == request.user
+    enrolled = course.students.filter(pk=request.user.pk).exists()
     return render(
         request,
         "dashboard/course/detail.html",
-        {"course": course, "owns_course": owns_course},
+        {"course": course, "owns_course": owns_course, "enrolled": enrolled},
     )
 
 
 @login_required(login_url="/login")
+@permission_required("app.change_course", login_url="/login", raise_exception=True)
 def edit_course(request, course_id):
+    # Verify that the user is a teacher and the owner of the course
+    if not is_teacher(request.user):
+        return redirect("/dashboard")
     course = Course.objects.get(pk=course_id)
+    if course.teacher != request.user:
+        return redirect("/dashboard")
+
+    # If the request is a POST request, process the form data and create a notification for each user
     if request.method == "POST":
         form = CourseForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
+            students = course.students.all()
+            for student in students:
+                Notification.objects.create(
+                    user=student,
+                    message=f"Your course '{course.title}' has been updated.",
+                )
             return redirect("/dashboard")
     else:
         form = CourseForm(instance=course)
