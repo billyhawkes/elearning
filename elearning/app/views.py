@@ -122,22 +122,35 @@ def course_detail(request, course_id):
     course = Course.objects.get(pk=course_id)
     owns_course = course.teacher == request.user
     enrolled = course.students.filter(pk=request.user.pk).exists()
+    students = course.students.all()
     return render(
         request,
         "dashboard/course/detail.html",
-        {"course": course, "owns_course": owns_course, "enrolled": enrolled},
+        {
+            "course": course,
+            "owns_course": owns_course,
+            "enrolled": enrolled,
+            "students": students,
+        },
     )
+
+
+# Helper for finding if the user is the owner of the course and a teacher
+def owns_course(request, course_id):
+    if not is_teacher(request.user):
+        return False
+    course = Course.objects.get(pk=course_id)
+    return course.teacher == request.user
 
 
 @login_required(login_url="/login")
 @permission_required("app.change_course", login_url="/login", raise_exception=True)
 def edit_course(request, course_id):
     # Verify that the user is a teacher and the owner of the course
-    if not is_teacher(request.user):
+    if not owns_course(request, course_id):
         return redirect("/dashboard")
+
     course = Course.objects.get(pk=course_id)
-    if course.teacher != request.user:
-        return redirect("/dashboard")
 
     # If the request is a POST request, process the form data and create a notification for each user
     if request.method == "POST":
@@ -156,6 +169,19 @@ def edit_course(request, course_id):
     return render(
         request, "dashboard/course/edit.html", {"form": form, "course": course}
     )
+
+
+def remove_student(request, course_id, student_id):
+    if not owns_course(request, course_id):
+        return redirect("/dashboard")
+    course = Course.objects.get(pk=course_id)
+    student = User.objects.get(pk=student_id)
+    course.students.remove(student)
+    Notification.objects.create(
+        user=student,
+        message=f"You have been removed from the course {course.title}",
+    )
+    return redirect("/dashboard" + f"/courses/{course_id}")
 
 
 # course = Course.objects.get(pk=course_id)

@@ -16,5 +16,17 @@
             {% endif %}
         {% endif %}
         <p>{{ course.description }}</p>
+        <h2>Students</h2>
+        {% if owns_course %}
+            {% for student in students %}
+                <div class="p-4 flex w-full justify-between rounded border border-[#ccc]">
+                    <span>
+                        <p>{{ student.first_name }} {{ student.last_name }}</p>
+                        <p>{{ student.email }}</p>
+                    </span>
+                    <a href="{% url "remove_student" course.id student.id %}" class="btn">Remove Student</a>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock content %}
