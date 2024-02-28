@@ -17,7 +17,8 @@ def is_teacher(user):
 
 
 def home(request):
-    return render(request, "home.html")
+    courses = Course.objects.all()
+    return render(request, "home.html", {"courses": courses})
 
 
 def logoutUser(request):
@@ -114,6 +115,32 @@ def unenroll(request, course_id):
         message=f"{request.user.username} has unenrolled from your course {course.title}",
     )
     return redirect("/dashboard")
+
+
+@login_required(login_url="/login")
+def course_detail(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    owns_course = course.teacher == request.user
+    return render(
+        request,
+        "dashboard/course/detail.html",
+        {"course": course, "owns_course": owns_course},
+    )
+
+
+@login_required(login_url="/login")
+def edit_course(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    if request.method == "POST":
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect("/dashboard")
+    else:
+        form = CourseForm(instance=course)
+    return render(
+        request, "dashboard/course/edit.html", {"form": form, "course": course}
+    )
 
 
 # course = Course.objects.get(pk=course_id)

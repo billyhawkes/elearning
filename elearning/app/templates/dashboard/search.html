@@ -11,7 +11,7 @@
                    id="query"
                    placeholder="Search for a teacher or student"
                    class="px-4 py-2 border rounded flex-1"
-                   value="{{ query }}">
+                   value="{% if query %}{{ query }}{% endif %}">
             <button type="submit" class="btn">Search</button>
         </form>
         {% if results %}

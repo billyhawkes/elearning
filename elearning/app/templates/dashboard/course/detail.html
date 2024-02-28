@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+    Course
+{% endblock title %}
+{% block content %}
+    <div class="flex flex-col items-start gap-3">
+        <h1>{{ course.title }}</h1>
+        {% if owns_course %}
+            <a href="{% url "edit_course" course.id %}" class="btn">Edit Course</a>
+        {% endif %}
+        <p>{{ course.description }}</p>
+    </div>
+{% endblock content %}

@@ -12,19 +12,21 @@
         </div>
         <h2>Enrolled courses</h2>
         {% for course in enrolled_courses %}
-            <div class="p-4 border border-border rounded-xl flex flex-col gap-2 items-start">
+            <a href="{% url "course_detail" course.id %}"
+               class="p-4 border border-border rounded-xl w-full">
                 <h2>{{ course.title }}</h2>
-                <p>{{ course.description }}</p>
+                <p class="truncate">{{ course.description }}</p>
                 <a href={% url "course_unenroll" course.id %} class="btn">Unenroll</a>
-            </div>
+            </a>
         {% endfor %}
         <h2>Recommended courses</h2>
         {% for course in courses %}
-            <div class="p-4 border border-border rounded-xl flex flex-col gap-2 items-start">
+            <a href="{% url "course_detail" course.id %}"
+               class="p-4 border border-border rounded-xl w-full">
                 <h2>{{ course.title }}</h2>
-                <p>{{ course.description }}</p>
+                <p class="truncate">{{ course.description }}</p>
                 <a href={% url "course_enroll" course.id %}  class="btn">Enroll</a>
-            </div>
+            </a>
         {% endfor %}
     </div>
 {% endblock content %}

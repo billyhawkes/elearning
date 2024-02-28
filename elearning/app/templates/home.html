@@ -3,6 +3,18 @@
     Home
 {% endblock title %}
 {% block content %}
-    <h1>Home</h1>
-    <p>Welcome to the home page</p>
+    <div class="flex flex-col gap-3">
+        <h1>Welcome to Bridge Elearning</h1>
+        <p>
+            Bridge Elearning is a platform that provides a wide range of courses to help you learn new skills and advance your career.
+        </p>
+        <p>Here are some of the courses we offer:</p>
+        <h2>Courses</h2>
+        {% for course in courses %}
+            <div class="p-4 border border-border rounded-xl w-full">
+                <h2>{{ course.title }}</h2>
+                <p class="truncate">{{ course.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
