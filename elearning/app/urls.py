@@ -21,4 +21,5 @@ urlpatterns = [
         name="remove_student",
     ),
     path("courses/<int:course_id>/feedback", views.feedback, name="feedback"),
+    path("status/", views.status, name="status"),
 ]

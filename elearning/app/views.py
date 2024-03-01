@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import (
 from django.contrib.auth.models import Group, User
 from django.shortcuts import redirect, render
 
-from .forms import CourseForm, FeedbackForm, RegisterForm
-from .models import Course, Feedback, Notification
+from .forms import CourseForm, FeedbackForm, RegisterForm, StatusForm
+from .models import Course, Feedback, Notification, Status
 
 # Create your views here.
 
@@ -46,6 +46,7 @@ def dashboard(request):
     notifications = Notification.objects.filter(user=request.user).order_by(
         "-created_at"
     )[:5]
+    statuses = Status.objects.all().order_by("-created_at")[:5]
     if is_teacher(request.user):
         courses = Course.objects.filter(teacher=request.user)
         return render(
@@ -54,6 +55,7 @@ def dashboard(request):
             {
                 "courses": courses,
                 "notifications": notifications,
+                "statuses": statuses,
             },
         )
     else:
@@ -66,6 +68,7 @@ def dashboard(request):
                 "courses": courses,
                 "enrolled_courses": enrolled_courses,
                 "notifications": notifications,
+                "statuses": statuses,
             },
         )
 
@@ -194,7 +197,21 @@ def feedback(request, course_id):
             feedback.user = request.user
             feedback.course = Course.objects.get(pk=course_id)
             feedback.save()
+            Notification.objects.create(
+                user=feedback.course.teacher,
+                message=f"{request.user.username} has left feedback for your course {feedback.course.title}",
+            )
             return redirect("/dashboard" + f"/courses/{course_id}")
+
+
+def status(request):
+    if request.method == "POST":
+        form = StatusForm(request.POST)
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.user = request.user
+            status.save()
+            return redirect("/dashboard")
 
 
 # course = Course.objects.get(pk=course_id)

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Course, Feedback
+from .models import Course, Feedback, Status
 
 
 class RegisterForm(UserCreationForm):
@@ -39,3 +39,9 @@ class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ["feedback"]
+
+
+class StatusForm(forms.ModelForm):
+    class Meta:
+        model = Status
+        fields = ["status"]

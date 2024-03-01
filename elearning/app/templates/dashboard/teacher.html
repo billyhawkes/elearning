@@ -27,5 +27,26 @@
                 <p class="text-muted truncate">{{ course.description }}</p>
             </a>
         {% endfor %}
+        <h2>Status</h2>
+        <form action="{% url "status" %}" method="post" class="w-full gap-3 flex">
+            {% csrf_token %}
+            <textarea name="status"
+                      id="status"
+                      cols="30"
+                      rows="2"
+                      class="w-full p-2 border border-[#ccc] rounded"
+                      placeholder="Create new status update"></textarea>
+            <button class="btn">Submit</button>
+        </form>
+        {% if statuses %}
+            {% for status in statuses %}
+                <div class="flex w-full flex-col gap-2 rounded p-4 border border-[#ccc] justify-between">
+                    <p>{{ status.status }}</p>
+                    <p class="text-muted text-sm">{{ status.created_at }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No statuses yet</p>
+        {% endif %}
     </div>
 {% endblock content %}
