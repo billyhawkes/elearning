@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import (
 from django.contrib.auth.models import Group, User
 from django.shortcuts import redirect, render
 
-from .forms import CourseForm, RegisterForm, SearchForm
-from .models import Course, Notification
+from .forms import CourseForm, FeedbackForm, RegisterForm
+from .models import Course, Feedback, Notification
 
 # Create your views here.
 
@@ -123,6 +123,7 @@ def course_detail(request, course_id):
     owns_course = course.teacher == request.user
     enrolled = course.students.filter(pk=request.user.pk).exists()
     students = course.students.all()
+    feedback = Feedback.objects.filter(course=course)
     return render(
         request,
         "dashboard/course/detail.html",
@@ -131,6 +132,7 @@ def course_detail(request, course_id):
             "owns_course": owns_course,
             "enrolled": enrolled,
             "students": students,
+            "feedback": feedback,
         },
     )
 
@@ -182,6 +184,17 @@ def remove_student(request, course_id, student_id):
         message=f"You have been removed from the course {course.title}",
     )
     return redirect("/dashboard" + f"/courses/{course_id}")
+
+
+def feedback(request, course_id):
+    if request.method == "POST":
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            feedback.user = request.user
+            feedback.course = Course.objects.get(pk=course_id)
+            feedback.save()
+            return redirect("/dashboard" + f"/courses/{course_id}")
 
 
 # course = Course.objects.get(pk=course_id)

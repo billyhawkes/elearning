@@ -3,13 +3,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Pages
     path("", views.home, name="home"),
     path("sign-up/", views.sign_up, name="sign_up"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("dashboard/create-course/", views.create_course, name="create_course"),
     path("dashboard/search/", views.search, name="search"),
-    # Endpoints
     path("logout/", views.logoutUser, name="logout"),
     path("courses/<int:course_id>/enroll", views.enroll, name="course_enroll"),
     path("courses/<int:course_id>/unenroll", views.unenroll, name="course_unenroll"),
@@ -22,4 +20,5 @@ urlpatterns = [
         views.remove_student,
         name="remove_student",
     ),
+    path("courses/<int:course_id>/feedback", views.feedback, name="feedback"),
 ]

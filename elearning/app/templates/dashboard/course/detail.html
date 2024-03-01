@@ -16,17 +16,46 @@
             {% endif %}
         {% endif %}
         <p>{{ course.description }}</p>
-        <h2>Students</h2>
         {% if owns_course %}
-            {% for student in students %}
-                <div class="p-4 flex w-full justify-between rounded border border-[#ccc]">
-                    <span>
-                        <p>{{ student.first_name }} {{ student.last_name }}</p>
-                        <p>{{ student.email }}</p>
-                    </span>
-                    <a href="{% url "remove_student" course.id student.id %}" class="btn">Remove Student</a>
+            <h2>Students</h2>
+            {% if students %}
+                {% for student in students %}
+                    <div class="p-4 flex w-full justify-between rounded border border-[#ccc]">
+                        <span>
+                            <p>{{ student.first_name }} {{ student.last_name }}</p>
+                            <p>{{ student.email }}</p>
+                        </span>
+                        <a href="{% url "remove_student" course.id student.id %}" class="btn">Remove Student</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No students enrolled</p>
+            {% endif %}
+        {% endif %}
+        <h2>Feedback</h2>
+        {% if not owns_course %}
+            <form action="{% url "feedback" course.id %}"
+                  method="post"
+                  class="w-full gap-3 flex">
+                {% csrf_token %}
+                <textarea name="feedback"
+                          id="feedback"
+                          cols="30"
+                          rows="2"
+                          class="w-full p-2 border border-[#ccc] rounded"
+                          placeholder="What are your thoughts?"></textarea>
+                <button class="btn">Submit</button>
+            </form>
+        {% endif %}
+        {% if feedback %}
+            {% for f in feedback %}
+                <div class="flex w-full flex-col gap-2 rounded p-4 border border-[#ccc] justify-between">
+                    <p>{{ f.feedback }}</p>
+                    <p class="text-muted text-sm">{{ f.user.first_name }} {{ f.user.last_name }} | {{ f.created_at }}</p>
                 </div>
             {% endfor %}
+        {% else %}
+            <p class="text-muted">No feedback yet</p>
         {% endif %}
     </div>
 {% endblock content %}
