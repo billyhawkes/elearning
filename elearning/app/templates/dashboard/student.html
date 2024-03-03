@@ -25,6 +25,7 @@
                 <p class="truncate">{{ course.description }}</p>
             </a>
         {% endfor %}
+        {% if not enrolled_courses %}<p class="text-muted">No enrolled courses yet</p>{% endif %}
         <h2>Recommended courses</h2>
         {% for course in courses %}
             <a href="{% url "course_detail" course.id %}"

@@ -28,7 +28,7 @@ class RegisterForm(UserCreationForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ["title", "description"]
+        fields = ["title", "description", "image"]
 
 
 class SearchForm(forms.Form):

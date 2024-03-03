@@ -9,6 +9,7 @@ class Course(models.Model):
     description = models.TextField()
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
     students = models.ManyToManyField(User, related_name="students")
+    image = models.ImageField(null=True, upload_to="images/", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

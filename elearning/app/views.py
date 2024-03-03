@@ -87,7 +87,7 @@ def search(request):
 @permission_required("app.add_course", login_url="/login", raise_exception=True)
 def create_course(request):
     if request.method == "POST":
-        form = CourseForm(request.POST)
+        form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             course = form.save(commit=False)
             course.teacher = request.user
@@ -95,7 +95,7 @@ def create_course(request):
             return redirect("/dashboard")
     else:
         form = CourseForm()
-    return render(request, "create_course.html", {"form": form})
+    return render(request, "dashboard/course/create.html", {"form": form})
 
 
 @login_required(login_url="/login")
@@ -159,7 +159,7 @@ def edit_course(request, course_id):
 
     # If the request is a POST request, process the form data and create a notification for each user
     if request.method == "POST":
-        form = CourseForm(request.POST, instance=course)
+        form = CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             form.save()
             students = course.students.all()
@@ -168,7 +168,7 @@ def edit_course(request, course_id):
                     user=student,
                     message=f"Your course '{course.title}' has been updated.",
                 )
-            return redirect("/dashboard")
+            return redirect("/dashboard" + f"/courses/{course_id}")
     else:
         form = CourseForm(instance=course)
     return render(
