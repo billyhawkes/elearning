@@ -6,7 +6,9 @@
 {% block content %}
     <h1 class="text-2xl font-bold pb-8">Log In</h1>
     <form method="post" class="flex flex-col gap-4">
+        {% comment %} Setup csrf token and crispy form {% endcomment %}
         {% csrf_token %}{{ form|crispy }}
+        {% comment %} Allow to switch to sign up {% endcomment %}
         <p>
             Don't have an account? <a href="{% url 'sign_up' %}" class="text-primary hover:underline">Register</a>
         </p>

@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% block title %}
-    Course
+    {{ course.title }}
 {% endblock title %}
 {% block content %}
     <div class="flex flex-col items-start gap-3">
+        {% comment %} Course metadata {% endcomment %}
         <img src="{{ course.image.url }}"
              alt="{{ course.title }}"
              height="200"
              width="200"
              class="w-full w-32 h-32 object-cover rounded" />
         <h1>{{ course.title }}</h1>
+        {% comment %} If owns course, show edit button, else show enroll/unenroll button {% endcomment %}
         {% if owns_course %}
             <a href="{% url "edit_course" course.id %}" class="btn">Edit Course</a>
         {% endif %}
@@ -21,6 +23,7 @@
             {% endif %}
         {% endif %}
         <p>{{ course.description }}</p>
+        {% comment %} If owns course, show the students list  {% endcomment %}
         {% if owns_course %}
             <h2>Students</h2>
             {% if students %}
@@ -37,6 +40,7 @@
                 <p class="text-muted">No students enrolled</p>
             {% endif %}
         {% endif %}
+        {% comment %} Show feedback and form to create if not the owner {% endcomment %}
         <h2>Feedback</h2>
         {% if not owns_course %}
             <form action="{% url "feedback" course.id %}"

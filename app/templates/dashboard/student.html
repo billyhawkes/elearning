@@ -5,11 +5,13 @@
 {% block content %}
     <div class="flex flex-col gap-4">
         <h1>Student Dashboard</h1>
+        {% comment %} Show profile {% endcomment %}
         <div class="p-4 border border-[#ccc] flex flex-col gap-2 rounded">
             <h2>Profile</h2>
             <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
             <p>Email: {{ user.email }}</p>
         </div>
+        {% comment %} Recent activity, list of 5 most recent notifications {% endcomment %}
         <h2>Recent Activity</h2>
         {% for notification in notifications %}
             <div class="p-4 border border-border rounded-xl w-full flex flex-col gap-2">
@@ -17,6 +19,7 @@
                 <p class="text-muted text-sm">{{ notification.created_at }}</p>
             </div>
         {% endfor %}
+        {% comment %} Courses currently enrolled in {% endcomment %}
         <h2>Enrolled courses</h2>
         {% for course in enrolled_courses %}
             <a href="{% url "course_detail" course.id %}"
@@ -26,14 +29,16 @@
             </a>
         {% endfor %}
         {% if not enrolled_courses %}<p class="text-muted">No enrolled courses yet</p>{% endif %}
+        {% comment %} Courses recommended, just a list of possible courses {% endcomment %}
         <h2>Recommended courses</h2>
-        {% for course in courses %}
+        {% for course in recommended_courses %}
             <a href="{% url "course_detail" course.id %}"
                class="p-4 border border-border rounded-xl w-full">
                 <h2>{{ course.title }}</h2>
                 <p class="truncate">{{ course.description }}</p>
             </a>
         {% endfor %}
+        {% comment %} User status and form to create new status {% endcomment %}
         <h2>Status</h2>
         <form action="{% url "status" %}" method="post" class="w-full gap-3 flex">
             {% csrf_token %}

@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Whitenoise
     "whitenoise.runserver_nostatic",
+    # Crispy Forms w/ Tailwind
     "crispy_forms",
     "crispy_tailwind",
+    # Local apps
     "app",
 ]
 
@@ -138,5 +141,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/dashboard"
 LOGOUT_REDIRECT_URL = "/login"
 
+# Store media files in the media folder
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"

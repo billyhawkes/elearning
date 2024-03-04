@@ -5,12 +5,15 @@
 {% block content %}
     <div class="flex flex-col gap-4 items-start">
         <h1>Teacher Dashboard</h1>
+        {% comment %} Show profile {% endcomment %}
         <div class="p-4 border border-[#ccc] flex flex-col gap-2 rounded">
             <h2>Profile</h2>
             <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
             <p>Email: {{ user.email }}</p>
         </div>
+        {% comment %} Link to search page {% endcomment %}
         <a href={% url "search" %} class="btn">Search</a>
+        {% comment %} Recent activity, list of 5 most recent notifications {% endcomment %}
         <h2>Recent Activity</h2>
         {% for notification in notifications %}
             <div class="p-4 border border-border rounded-xl w-full flex flex-col gap-2">
@@ -18,6 +21,7 @@
                 <p class="text-muted text-sm">{{ notification.created_at }}</p>
             </div>
         {% endfor %}
+        {% comment %} List of teachers courses and a button to create {% endcomment %}
         <h2>Your courses</h2>
         <a href={% url "create_course" %} class="btn">Create course</a>
         {% for course in courses %}
@@ -27,6 +31,7 @@
                 <p class="text-muted truncate">{{ course.description }}</p>
             </a>
         {% endfor %}
+        {% comment %} User statuses and a form to add {% endcomment %}
         <h2>Status</h2>
         <form action="{% url "status" %}" method="post" class="w-full gap-3 flex">
             {% csrf_token %}
