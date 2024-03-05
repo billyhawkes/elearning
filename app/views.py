@@ -268,8 +268,8 @@ def feedback(request, course_id):
                 user=feedback.course.teacher,
                 message=f"{request.user.username} has left feedback for your course {feedback.course.title}",
             )
-            # Redirect to the course detail page (refreshes the page)
-            return redirect("/dashboard" + f"/courses/{course_id}")
+    # Redirect to the course detail page (refreshes the page)
+    return redirect("/dashboard" + f"/courses/{course_id}")
 
 
 # Create status view (requires login)
@@ -284,4 +284,4 @@ def status(request):
             status.user = request.user
             status.save()
             # Redirect to the dashboard (refreshes the page)
-            return redirect("/dashboard")
+    return redirect("/dashboard")
