@@ -144,3 +144,5 @@ LOGOUT_REDIRECT_URL = "/login"
 # Store media files in the media folder
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost", "https://bridgelearning.up.railway.app"]
