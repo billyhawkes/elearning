@@ -72,7 +72,7 @@ def dashboard(request):
     notifications = Notification.objects.filter(user=request.user).order_by(
         "-created_at"
     )[:5]
-    statuses = Status.objects.all().order_by("-created_at")[:5]
+    statuses = Status.objects.filter(user=request.user).order_by("-created_at")[:5]
     # If the user is a teacher, show the teacher dashboard
     if is_teacher(request.user):
         # Get teacher's courses
